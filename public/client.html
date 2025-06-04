@@ -2,12 +2,76 @@
 <html>
 
 <head>
-    <title>Express</title>
+    <title>Top 10 Dogs</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #f7f7f7;
+            margin: 0;
+            padding: 0;
+        }
+
+        .container {
+            max-width: 600px;
+            margin: 40px auto;
+            background: #fff;
+            border-radius: 10px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+            padding: 32px 24px;
+        }
+
+        h1 {
+            text-align: center;
+            color: #333;
+        }
+
+        ul.dog-list {
+            list-style: none;
+            padding: 0;
+        }
+
+        ul.dog-list li {
+            background: #e3eafc;
+            margin: 12px 0;
+            padding: 16px;
+            border-radius: 6px;
+            font-size: 1.1em;
+            display: flex;
+            align-items: center;
+        }
+
+        ul.dog-list img {
+            width: 60px;
+            height: 60px;
+            object-fit: cover;
+            border-radius: 50%;
+            margin-right: 18px;
+            border: 2px solid #b6ccfe;
+        }
+    </style>
 </head>
 
 <body>
-    <h1>Express</h1>
-    <p>Welcome to Express</p>
+    <div class="container">
+        <h1>Top 10 Dogs</h1>
+        <ul class="dog-list" id="dog-list">
+            <!-- Dog items will be inserted here -->
+        </ul>
+    </div>
+    <script>
+        async function fetchDogs() {
+            const res = await fetch('/api/dogs');
+            const dogs = await res.json();
+            const list = document.getElementById('dog-list');
+            list.innerHTML = '';
+            dogs.forEach(dog => {
+                const li = document.createElement('li');
+                li.innerHTML = `<img src="${dog.image}" alt="${dog.name}"><span>${dog.name}</span>`;
+                list.appendChild(li);
+            });
+        }
+        fetchDogs();
+    </script>
 </body>
 
 </html>
