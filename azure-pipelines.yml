@@ -6,9 +6,6 @@
 trigger:
 - main
 
-pool:
-  name: EricAgentPool
-
 variables:
 
   # Azure Resource Manager connection created during pipeline creation
@@ -21,7 +18,8 @@ variables:
   environmentName: 'itmartin'
 
   # Agent VM image name
-  vmImageName: 'ubuntu-latest'
+  #vmImageName: 'ubuntu-latest'
+  PoolName: 'EricAgentPool'
 
 stages:
 - stage: Build
@@ -30,7 +28,8 @@ stages:
   - job: Build
     displayName: Build
     pool:
-      vmImage: $(vmImageName)
+      #vmImage: $(vmImageName)
+      name: $(PoolName)
 
     steps:
     - task: NodeTool@0
@@ -65,7 +64,8 @@ stages:
     displayName: Deploy
     environment: $(environmentName)
     pool:
-      vmImage: $(vmImageName)
+      #vmImage: $(vmImageName)
+      name: $(PoolName)
     strategy:
       runOnce:
         deploy:
@@ -80,3 +80,4 @@ stages:
               package: $(Pipeline.Workspace)/drop/$(Build.BuildId).zip
 
               startUpCommand: 'npm run start'
+
